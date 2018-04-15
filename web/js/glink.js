@@ -115,6 +115,10 @@ function listFriends() {
 								 + '<a data-toggle="collapse" data-target="#' + user_id + '-televisionList">'
 								 + '<div class="interest-panel">Television</div></a>'
 								 + '<div class="collapse" id="' + user_id + '-televisionList"></div></div>'
+
+								 + '<a data-toggle="collapse" data-target="#' + user_id + '-booksList">'
+								 + '<div class="interest-panel">Books</div></a>'
+								 + '<div class="collapse" id="' + user_id + '-booksList"></div></div>'
 								);
 
 				$('#' + user_id + '-panel').on('click', {id: user_id}, listInterests);
@@ -190,6 +194,7 @@ function listInterests(event) {
 	updateInterest(event.data.id, 'music');
 	updateInterest(event.data.id, 'movies');
 	updateInterest(event.data.id, 'television');
+	updateInterest(event.data.id, 'books');
 }
 
 
@@ -204,6 +209,7 @@ function updateInterest(user_id, interest){
 	if(interest == 'music'){ target = ('' + user_id + '-musicList'); }
 	else if(interest == 'television'){ target = ('' + user_id + '-televisionList'); }
 	else if(interest == 'movies'){ target = ('' + user_id + '-moviesList'); }
+	else if(interest == 'books'){ target = ('' + user_id + '-booksList'); }
 
 	FB.api(endpoint, function(response){
 		if(response && !response.error){
