@@ -134,10 +134,6 @@ input:focus::placeholder {
 }
 
 
-/* Content hidden for login or logout state */
-.hidden {
-    display: none;
-}
 
 /* Panel within the main application pane */
 .inner-panel {
@@ -221,3 +217,8 @@ input:focus::placeholder {
 	border-top: 1px solid #dddfe2;
 	padding: 8px;
   }
+
+/* Content hidden for login or logout state */
+.hidden {
+    display: none;
+}

@@ -113,7 +113,7 @@ function listFriends() {
 								 
 								 + '<a data-toggle="collapse" data-target="#' + user_id + '-televisionList">'
 								 + '<div class="interest-panel">Television</div></a>'
-								 + '<div class="collapse" id="' + user_id + '-televisionList"></div></div>'
+								 + '<div class="collapse" id="' + user_id + '-televisionList"></div>'
 
 								 + '<a data-toggle="collapse" data-target="#' + user_id + '-booksList">'
 								 + '<div class="interest-panel">Books</div></a>'
@@ -242,9 +242,14 @@ function listInterest(response, target) {
 		console.log(target);
 		console.log(query);
 		console.log(response);
+		console.log(response.data.length)
 	}
-	
+
+	/* if the user has no interests in a category, indicate that */
 	$(query).empty();
+	if (response.data.length == 0) {
+		$(query).append('<div class="interest-item-panel"><p>User has no interests in this category!</p></div>');
+	}
 	for(item in response.data) {
 		var name = response.data[item].name;
 		var sname = name.replace(/ /g, "+");
