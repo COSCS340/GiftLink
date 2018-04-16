@@ -3,7 +3,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
-/* Preload images */
+/* Preloads images */
 body:before {
 	content: '';
 	display: none;
@@ -11,21 +11,47 @@ body:before {
 	background-image: url('../images/search_icon_focus.png');
 }
 
+/* ===== Global ===== */
+
 a {
 	color: #365899;
 }
 
-#mainHeader {
+input::placeholder {
+	color: #9d9fa2;
+	opacity: 1;
+	
+	-webkit-transition: color 0.3s ease;
+	-moz-transition: color 0.3s ease;
+	-o-transition: color 0.3s ease;
+	transition: color 0.3s ease;
+}
+input:focus::placeholder {
+	color: #dddfe2;
+	opacity: 1;
+}
+
+/* ===== Elements ===== */
+
+/* Displays application name */
+#appHeader {
 	text-shadow: 1px 1px #ffffff;
 }
 
-#mainPanel {
+/* Main application pane */
+#appPane {
     background: #ffffff;
     border: 1px solid #dddfe2;
     border-radius: 3px;
     padding: 0;
 }
 
+/* Aligns application pane */
+#appWrapper {
+	padding: 5% 15px 5% 15px;
+}
+
+/* Introduction message shown before login */
 #introMessage {
 	padding: 16px;
 	font-weight: 500;
@@ -40,16 +66,19 @@ a {
 	padding: 5% 15px 5% 15px;
 }
 
+/* User profile picture shown in top panel after login */
 #profilePic {
     border: 1px solid #dddfe2;
     border-radius: 2px;
 }
 
+/* User name shown in top panel after login */
 #nameBadge {
     padding: 6px;
     font-weight: 500;
 }
 
+/* Friends list searchbar */
 #friendSearch {
 	padding: 4px 4px 4px 36px;
     width: 100%;
@@ -66,32 +95,16 @@ a {
 	-o-transition: background-image 0.3s ease;
 	transition: background-image 0.3s ease;
 }
-
 #friendSearch:hover {
 	background-image: url('../images/search_icon_hover.png');
 	outline: 0;
 }
-
 #friendSearch:focus {
 	background-image: url('../images/search_icon_focus.png');
 	outline: 0;
 }
 
-input::placeholder {
-	color: #9d9fa2;
-	opacity: 1;
-	
-	-webkit-transition: color 0.3s ease;
-	-moz-transition: color 0.3s ease;
-	-o-transition: color 0.3s ease;
-	transition: color 0.3s ease;
-}
-
-input:focus::placeholder {
-	color: #dddfe2;
-	opacity: 1;
-}
-
+/* Panel offering tools to change friends list display */
 #searchTools {
 	padding: 4px 8px;
 	width: 100%;
@@ -102,6 +115,9 @@ input:focus::placeholder {
 	font-size: 12px;
 }
 
+/* ===== Classes ===== */
+
+/* Loading wheel */
 .loader {
 	border: 16px solid #f3f3f3; /* Light grey */
 	border-top: 16px solid #3b5998; /* Blue */
@@ -116,6 +132,14 @@ input:focus::placeholder {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
+
+
+/* Content hidden for login or logout state */
+.hidden {
+    display: none;
+}
+
+/* Panel within the main application pane */
 .inner-panel {
     background-color: #f6f7f9;
 	height: 44px;
@@ -123,27 +147,31 @@ input:focus::placeholder {
     text-align: center;
 }
 
+/* Panel at the top of the main application pane */
 .top-panel {
 	border-bottom: 1px solid #dddfe2;
     border-radius: 2px 2px 0 0;
 }
 
+/* Panel at the bottom of the main application pane */
 .bottom-panel {
 	border-top: 1px solid #dddfe2;
     border-radius: 0 0 2px 2px;
 }
 
+/* Panel which fluidly justifies its contents */
 .fluid-panel {
     display: flex;
     justify-content: space-between;
 }
 
+/* Panel containing basic friend information; activates
+   drop-down list of interest categories */
 .friend-panel {
 	border-top: 1px solid #dddfe2;
 	padding: 8px;
 	cursor: pointer;
 }
-
 .friend-panel:hover {
 	background: #dfe3ee;
 	-webkit-transition: background-color 0.3s ease;
@@ -152,6 +180,7 @@ input:focus::placeholder {
 	transition: background-color 0.3s ease;
 }
 
+/* Friend panel profile picture */
 .friend-pic {
 	border: 1px solid #dddfe2;
     border-radius: 2px;
@@ -159,22 +188,25 @@ input:focus::placeholder {
 	width: auto;
 }
 
+/* Friend panel nametag */
 .friend-name {
 	padding: 6px;
 	font-weight: 500;
 }
 
+/* Friend panel birthday tag */
 .friend-birthday {
 	padding: 6px;
 }
 
+/* Panel labelling an interest category; activates 
+   drop-down list of interest items */
 .interest-panel {
 	background: #eeeeee;
 	border-top: 1px solid #dddfe2;
 	padding: 8px;
 	cursor: pointer;
 }
-
 .interest-panel:hover {
 	background: #dddddd;
 	-webkit-transition: background-color 0.3s ease;
@@ -183,11 +215,9 @@ input:focus::placeholder {
 	transition: background-color 0.3s ease;
 }
 
+/* Panel labelling an interest item, containing
+   generated search links */
 .interest-item-panel {
 	border-top: 1px solid #dddfe2;
 	padding: 8px;
-}
-
-.hidden {
-    display: none;
-}
+  }

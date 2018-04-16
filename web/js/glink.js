@@ -35,14 +35,13 @@ function appLogin(){
 			$('#sortBirthday').on('click', toggleSortBirthday);
 			
 			//Setting the top bar to display the the logged in user's profile picture and name
-			FB.api('/me', {fields: 'id,name,birthday'}, function(response) {
+			FB.api('/me', {fields: 'id,name,birthday,locale'}, function(response) {
 				$('#profilePic').attr('src', 'http://graph.facebook.com/' + response.id + '/picture?type=normal');
 				$('#nameBadge').text(response.name);
 			});
 			
 			//Grab and list the user's friends in the #friendBlock HTML element
 			listFriends();
-
 
 			//Dynamically filter friends as you type by attaching an event listener to the #friendSearch input field
 			$('#friendSearch').on("keyup", function() {
@@ -127,10 +126,11 @@ function listFriends() {
 	);
 }
 
+
 /**
- ** Log user out of Facebook and remove data
+ ** Logs user out of Facebook and removes associated data
  **/
-function appLogout(response){
+function appLogout() {
 	$('#introBlock').removeClass('hidden');
 	$('#outputBlock').addClass('hidden')
 					 .empty();
@@ -143,21 +143,25 @@ function appLogout(response){
 	$('#profilePic').attr('src', '');
 }
 
+
 /**
- ** Comparator for case insensitive search (i.e. Does str1 contain str2 ?)
+ ** Determines whether string b is a substring of a
+ ** @param {string} a The string to inspect
+ ** @param {string} b The substring for which to search
+ ** @return {bool} Whether the substring b was found in a
  **/
-function strCmp(str1, str2){
-	return (str1.toLowerCase().indexOf(str2.toLowerCase()) >= 0); 
+function strCmp(a, b) {
+	return (a.toLowerCase().indexOf(b.toLowerCase()) >= 0); 
 }
 
 /**
  ** Toggles friends-sorting by name, ascending or descending
  **/
 function toggleSortName() {
-	if ($('#friendBlock').attr('data-sort') != 0)
-		$('#friendBlock').attr('data-sort', 0);
+	if ($('#friendBlock').attr('data-sort') != 'name-ascend')
+		$('#friendBlock').attr('data-sort', 'name-ascend');
 	else
-		$('#friendBlock').attr('data-sort', 1);
+		$('#friendBlock').attr('data-sort', 'name-descend');
 	
 	listFriends();
 }
@@ -166,29 +170,33 @@ function toggleSortName() {
  ** Toggles friends-sorting by birthday, ascending or descending
  **/
 function toggleSortBirthday() {
-	if ($('#friendBlock').attr('data-sort') != 2)
-		$('#friendBlock').attr('data-sort', 2);
+	if ($('#friendBlock').attr('data-sort') != 'bday-ascend')
+		$('#friendBlock').attr('data-sort', 'bday-ascend');
 	else
-		$('#friendBlock').attr('data-sort', 3);
+		$('#friendBlock').attr('data-sort', 'bday-descend');
 	
 	listFriends();
 }
 
 /**
- ** Updates friends list, sorted by name or birthday
+ ** Compares two friend objects by name or by birthday
+ ** @param {Object} a First user to compare
+ ** @param {Object} b Second user to compare
+ ** @returns {int} The result of comparison (i.e. 1, 0, or -1)
  **/
 function sortFriends(a, b) {
-	switch(parseInt($('#friendBlock').attr('data-sort'))) {
-		case 0: return a.name.localeCompare(b.name);
-		case 1: return b.name.localeCompare(a.name);
-		case 2: return (Date.parse(b.birthday) <= Date.parse(a.birthday) ? 1 : -1);
-		case 3: return (Date.parse(a.birthday) <= Date.parse(b.birthday) ? 1 : -1);
-	}
+	var sortby = $('#friendBlock').attr('data-sort');
+	
+	if (sortby == 'name-ascend') return a.name.localeCompare(b.name);
+	if (sortby == 'name-descend') return b.name.localeCompare(a.name);
+	if (sortby == 'bday-ascend') return (Date.parse(b.birthday) <= Date.parse(a.birthday) ? 1 : -1);
+	if (sortby == 'bday-descend') return (Date.parse(a.birthday) <= Date.parse(b.birthday) ? 1 : -1);
 }
 
 
 /**
- ** Wrapper: updates all user interests
+ ** Updates all user interests (wrapper for updateInterest)
+ ** @param {JSON} event JQuery event handler data object
  **/
 function listInterests(event) {
 	updateInterest(event.data.id, 'music');
@@ -200,8 +208,10 @@ function listInterests(event) {
 
 /** 
  ** Customizable function to get and update a user's interests from the appropriate endpoint
+ ** @param {int} user_id Graph API ID of user node
+ ** @param {string} interest Interest category to list
  **/
-function updateInterest(user_id, interest){
+function updateInterest(user_id, interest) {
 	var endpoint = '/' + user_id + '/' + interest;
 	if(DEBUG_MODE) console.log(endpoint);
 	
@@ -220,11 +230,13 @@ function updateInterest(user_id, interest){
 
 
 /**
- ** Iterates over a response's data, generates amazonSearch link, and appends it to
- ** the target
+ ** Iterates over data from a Graph API response, generates search urls, and
+ ** places links to each in the target element
+ ** @param {JSON} response Graph API edge, containing an array of user interests
+ ** @param {string} target ID of element to store list of interests
  **/
-function listInterest(response, target){
-	query = '#' + target;
+function listInterest(response, target) {
+	var query = '#' + target;
 	
 	if(DEBUG_MODE){
 		console.log(target);
