@@ -1,5 +1,5 @@
 REPO="./GiftLink"
-IMG="$REPO/web/img/*"
+IMAGES="$REPO/web/images/*"
 JS="$REPO/web/js/*"
 CSS="$REPO/web/css/*"
 INDEX="$REPO/web/index.html"
@@ -13,8 +13,8 @@ if [ ! -d $WEBHOME/js ]; then
 	mkdir $WEBHOME/js
 fi
 
-if [ ! -d $WEBHOME/img ]; then
-	mkdir $WEBHOME/img
+if [ ! -d $WEBHOME/images ]; then
+	mkdir $WEBHOME/images
 fi
 
 if [ ! -d $WEBHOME/css ]; then
@@ -22,7 +22,7 @@ if [ ! -d $WEBHOME/css ]; then
 fi
 
 cp $JS $WEBHOME/js
-cp $IMG $WEBHOME/img
+cp $IMAGES $WEBHOME/images
 cp $CSS $WEBHOME/css
 cp $INDEX $WEBHOME
 cp $REPO/web/privacy_policy.html $WEBHOME

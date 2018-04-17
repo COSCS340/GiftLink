@@ -15,30 +15,35 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 	
 	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	<script src="js/holidayEvents.js"></script>
+	<script src="js/zabuto_calendar.min.js"></script>
+	<script src="js/bootbox.min.js"></script>
 	<script type = "application/javascript" src = "js/fb_init.js"></script>
 	<script type = "application/javascript" src = "js/glink.js"></script>
 
+	<!-- Third Party CSS -->
+	<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="css/zabuto_calendar.min.css">
+	
 	<title>GiftLink</title>
   </head>
   <body>
-	<div class="container-fluid" id="appWrapper">
-        <h1 class="text-center" id="appHeader">Gift<span style="color:#3b5998">Link</span></h1>
+	<div class="container-fluid" id="wrapper">
+        <h1 class="text-center" id="mainHeader">Gift<span style="color:#3b5998">Link</span></h1>
         <div class="container">
-            <div class="row" id="appPane">
+            <div class="row" id="mainPanel">
 				<div class="col-12" style="padding: 0">
 					<div class="inner-panel top-panel" id="loginPanel">
 						<button class="uibutton large confirm" id="loginControl" onclick="appLogin()">Login with Facebook</button>
 					</div>
-					<center>
-						<div class="loader hidden"></div>
-					</center>
 					<div class="inner-panel top-panel fluid-panel hidden" id="logoutPanel">
 						<span>
 							<img id="profilePic" height="27" width="27"></img>
@@ -53,11 +58,11 @@
 						<a class="sort" id="sortName" href="javascript:;">Name</a> · 
 						<a class="sort" id="sortBirthday" href="javascript:;">Birthday</a>
 					</div>
-					<div class="hidden" id="friendBlock" data-sort="name-ascend"></div>
+					<div class="hidden" id="friendBlock" data-sort="0"></div>
 					<div id="introBlock">
 						<h5 class="text-center" id="introMessage">Surprise your friends with the perfect gifts</h5>
 						<p class="text-center">
-							<img src="img/gift-icon-blue.png" height="200" width="200"></img>
+							<img src="images/gift-icon-blue.png" height="200" width="200"></img>
 						</p>
 					</div>
 					<div class="inner-panel bottom-panel" id="footerPanel">
@@ -69,4 +74,5 @@
         </div>
     </div>
   </body>
+
 </html>
