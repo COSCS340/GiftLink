@@ -1,84 +1,89 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	
-	<link rel="stylesheet" type="text/css" href="css/fb-buttons.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
-	
-	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	
-	<script src="js/holidayEvents.js"></script>
-	<script src="js/zabuto_calendar.min.js"></script>
-	<script src="js/bootbox.min.js"></script>
-	<script type = "application/javascript" src = "js/fb_init.js"></script>
-	<script type = "application/javascript" src = "js/glink.js"></script>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-	<!-- Third Party CSS -->
-	<link rel="stylesheet" type="text/css" href="css/animate.min.css">
-	<link rel="stylesheet" type="text/css" href="css/zabuto_calendar.min.css">
-	
-	<title>GiftLink</title>
-  </head>
-  <body>
-  <div class="overlay">
-	  <h1 class="text-center animated fadeInDown" id="overlayHeader">Gift<span style="color:#3b5998">Link</span>
-		<div class="loader text-center"></div>
-	  </h1>
-	 
-  </div>
-	<div class="container-fluid" id="appWrapper">
-        <h1 class="text-center" id="appHeader">Gift<span style="color:#3b5998">Link</span></h1>
-        <div class="container">
-            <div class="row" id="appPane">
-				<div class="col-12" style="padding: 0">
-					<div class="inner-panel top-panel" id="loginPanel">
-						<button class="uibutton large confirm" id="loginControl" onclick="appLogin()">Login with Facebook</button>
-					</div>
-					<div class="inner-panel top-panel fluid-panel hidden" id="logoutPanel">
-						<span>
-							<img id="profilePic" height="27" width="27"></img>
-							<span id="nameBadge"></span>
-						</span>
-						<button class="uibutton large confirm" id="logoutControl" onclick="FB.logout(appLogout)">Logout</button>
-					</div>
-					<div class="text-center hidden" id="outputBlock"></div>
-					<input class="hidden" id="friendSearch" type="text" name="searchName" value="" placeholder="Search">
-					<div class="hidden" id="searchTools">
-						Sort: 
-						<a class="sort" id="sortName" href="javascript:;">Name</a> · 
-						<a class="sort" id="sortBirthday" href="javascript:;">Birthday</a>
-					</div>
-					<div class="hidden" id="friendBlock" data-sort="name-ascend"></div>
-					<div id="introBlock">
-						<h5 class="text-center" id="introMessage">Surprise your friends with the perfect gifts</h5>
-						<p class="text-center">
-							<img src="images/gift-icon-blue.png" height="200" width="200"></img>
-						</p>
-					</div>
-					<div class="inner-panel bottom-panel" id="footerPanel">
-						<span>© 2018 Socially Gifted · </span>
-						<a href = "privacy_policy.html">Privacy Policy</a>
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="css/fb-buttons.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+		<!-- JavaScript Libraries -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+		<script src="js/holidayEvents.js"></script>
+		<script src="js/zabuto_calendar.min.js"></script>
+		<script src="js/bootbox.min.js"></script>
+		<script type = "application/javascript" src = "js/fb_init.js"></script>
+		<script type = "application/javascript" src = "js/glink.js"></script>
+
+		<!-- Third Party CSS -->
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+		<link rel="stylesheet" type="text/css" href="css/zabuto_calendar.min.css">
+
+		<title>GiftLink</title>
+	</head>
+	<body>
+		<div class="container-fluid" id="appWrapper">
+			<h1 class="text-center" id="appHeader">Gift<span style="color:#3b5998">Link</span></h1>
+			<div class="container">
+				<div class="row" id="appPane">
+					<div class="col-12" style="padding: 0">
+						<div class="inner-panel top-panel" id="loginPanel">
+							<button class="uibutton large confirm" id="loginControl" onclick="appLogin()">Login with Facebook</button>
+						</div>
+						<div class="inner-panel top-panel fluid-panel hidden" id="logoutPanel">
+							<span>
+								<img id="profilePic" height="27" width="27"></img>
+								<span id="nameBadge"></span>
+							</span>
+							<button class="uibutton large confirm" id="logoutControl" onclick="FB.logout(appLogout)">Logout</button>
+						</div>
+						<div class="text-center hidden" id="outputBlock"></div>
+						<input class="hidden" id="friendSearch" type="text" name="searchName" value="" placeholder="Search">
+						<div class="hidden" id="searchTools">
+							Sort: 
+							<a id="sortName" href="javascript:;">Name</a> · 
+							<a id="sortBirthday" href="javascript:;">Birthday</a>
+							 | 
+							<a id="filterVerified" href="javascript:;">Hide Unverified</a>
+						</div>
+						<div class="hidden" id="friendBlock" data-sort="name-ascend" data-filter="all"></div>
+						<div id="introBlock">
+							<h5 class="text-center" id="introMessage">Surprise your friends with the perfect gifts</h5>
+							<p class="text-center">
+								<img id="giftBox" src="images/gift-icon-blue.png" height="200" width="200"></img>
+							</p>
+						</div>
+						<div class="inner-panel bottom-panel" id="footerPanel">
+							<span>© 2018 Socially Gifted · </span>
+							<a href = "privacy_policy.html">Privacy Policy</a>
+						</div>
 					</div>
 				</div>
-            </div>
-        </div>
-    </div>
-  </body>
-
+			</div>
+		</div>
+		<script>
+			if(hasWebStorage){
+				if(!sessionStorage.overlayCount){
+					sessionStorage.setItem("overlayCount", 1);
+					showOverlay();
+				}
+			}
+			setTimeout(function(){removeOverlay();}, 6000);
+			$('#giftBox').click(function(){$('#giftBox').animateCss('tada');});
+		</script>
+	</body>
 </html>
