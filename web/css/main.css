@@ -1,5 +1,12 @@
+/* ===== Variables ===== */
+:root{
+	--bg-color: #f7f7f7;
+	--accent-color: #4267b2;
+	--link-color: #365899;
+}
+
 body {
-    background: #f7f7f7;
+    background-color: var(--bg-color);
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -14,7 +21,7 @@ body:before {
 /* ===== Global ===== */
 
 a {
-	color: #365899;
+	color: var(--link-color);
 }
 
 input::placeholder {
@@ -118,7 +125,24 @@ input:focus::placeholder {
 	font-size: 12px;
 }
 
+#privacyPolicy{
+	background-color:rgba(255,255,255,.8); 
+	border-style:solid; 
+	border-color: rgba(0,0,0,.55);
+}
+
 /* ===== Classes ===== */
+
+.btn-primary{
+	background-color: var(--link-color);
+	border-color: var(--link-color);
+	width: 140px;
+}
+
+.btn-primary:hover {
+	background-color: var(--accent-color);
+	border-color: var(--accent-color);
+}
 
 .overlay{
 	position:absolute;
@@ -135,7 +159,7 @@ input:focus::placeholder {
 	position: relative;
 	left: 46.5%;
 	border: .5vw solid #f3f3f3;
-	border-top: .5vw solid #3b5998;
+	border-top: .5vw solid var(--accent-color);
 	border-radius: 50%;
 	width: 7vw;
 	height: 7vw;
@@ -150,7 +174,7 @@ input:focus::placeholder {
 /* Panel within the main application pane */
 .inner-panel {
     background-color: #f6f7f9;
-	height: 44px;
+	min-height: 44px;
     padding: 8px;
     text-align: center;
 }

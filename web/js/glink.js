@@ -1,9 +1,13 @@
 
-//Used to dynamically generate Amazon search links of a FaceBook user's interests
-var amazonLink = 'https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=';
+//Used to dynamically generate search links of a FaceBook user's interests
+var amazon_link = 'https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=';
+var ebay_link = 'https://www.ebay.com/sch/';
 
 //Enable or disable output to console.log()
 const DEBUG_MODE =  1;
+
+//Used to determine whether or the loading overlay should be displayed
+var hasWebStorage = typeof(Storage) !== "undefined";
 
 /**
  ** Extends animateCss to jQuery.
@@ -11,7 +15,7 @@ const DEBUG_MODE =  1;
  ** and can specify a function to execute when animation completes
  **/
 $.fn.extend({
-  animateCss: function(animationName, callback) {
+  animateCss: function(animationName, callback, duration) {
     var animationEnd = (function(el) {
       var animations = {
         animation: 'animationend',
@@ -26,7 +30,12 @@ $.fn.extend({
         }
       }
     })(document.createElement('div'));
-
+	
+	if(duration){
+		this.css('-webkit-animation-duration', duration+'s')
+			.css('animation-duration', duration+'s');
+	}
+	
     this.addClass('animated ' + animationName).one(animationEnd, function() {
       $(this).removeClass('animated ' + animationName);
 
@@ -76,6 +85,7 @@ function postLoginSetup(){
 	
 	$('#sortName').on('click', toggleSortName);
 	$('#sortBirthday').on('click', toggleSortBirthday);
+	$('#filterVerified').on('click', toggleFilterVerified);
 	
 	//Setting the top bar to display the the logged in user's profile picture and name
 	FB.api('/me', {fields: 'id,name,birthday'}, function(response) {
@@ -207,8 +217,8 @@ function toggleSortBirthday() {
 
 /**
  ** Compares two friend objects by name or by birthday
- ** @param {Object} a First user to compare
- ** @param {Object} b Second user to compare
+ ** @param {object} a First user to compare
+ ** @param {object} b Second user to compare
  ** @returns {int} The result of comparison (i.e. 1, 0, or -1)
  **/
 function sortFriends(a, b) {
@@ -221,8 +231,25 @@ function sortFriends(a, b) {
 }
 
 /**
+ ** Toggles filtering of friends' interests by page verification
+ **/
+function toggleFilterVerified() {
+	if ($('#friendBlock').attr('data-filter') != 'verified') {
+		$('#friendBlock').attr('data-filter', 'verified');
+		$('#filterVerified').text('Show Unverified');
+	}
+	
+	else {
+		$('#friendBlock').attr('data-filter', 'all');
+		$('#filterVerified').text('Hide Unverified');
+	}
+	
+	listFriends();
+}
+
+/**
  ** Updates all user interests (wrapper for updateInterest)
- ** @param {JSON} event JQuery event handler data object
+ ** @param {object} event JQuery event handler data object
  **/
 function listInterests(event) {
 	updateInterest(event.data.id, 'music');
@@ -237,7 +264,7 @@ function listInterests(event) {
  ** @param {string} interest Interest category to list
  **/
 function updateInterest(user_id, interest) {
-	var endpoint = '/' + user_id + '/' + interest;
+	var endpoint = '/' + user_id + '/' + interest + '?fields=name,verification_status,website';
 	if(DEBUG_MODE) console.log(endpoint);
 	
 	var target;
@@ -256,7 +283,7 @@ function updateInterest(user_id, interest) {
 /**
  ** Iterates over data from a Graph API response, generates search urls, and
  ** places links to each in the target element
- ** @param {JSON} response Graph API edge, containing an array of user interests
+ ** @param {object} response Graph API edge, containing an array of user interests
  ** @param {string} target ID of element to store list of interests
  **/
 function listInterest(response, target) {
@@ -268,31 +295,76 @@ function listInterest(response, target) {
 		console.log(response);
 	}
 	
+	var filter = $('#friendBlock').attr('data-filter') == 'verified';
+	
 	$(query).empty();
 	for(item in response.data) {
+		// Filter verification
+		var verif = response.data[item].verification_status;
+		if (filter && verif == 'not_verified') continue;
+		
 		var name = response.data[item].name;
-		var sname = name.replace(/ /g, "+");
-		$(query).append('<div class="interest-item-panel">'
-						+ '<a class = "jqPlaceholder" target = "_blank" href = "" ></a>'
+		var amazon_sname = name.replace(/ /g, '+');
+		var ebay_sname = name.replace(/ /g, '%20');
+		
+		var website = response.data[item].website;
+		
+		$(query).append('<div class="interest-item-panel fluid-panel">'
+						+ '<a class="pageLink"></a>'
+						+ '<span>'
+						+ '<a class="amazonLink" target="_blank" href="">Amazon</a> / '
+						+ '<a class="ebayLink" target="_blank" href="">Ebay</a>'
+						+ '</span>'
 						+ '</div>');
-		$('.jqPlaceholder').attr('href', amazonLink + sname);
-		$('.jqPlaceholder').html(name);
-		$('.jqPlaceholder').removeClass('jqPlaceholder');
+						
+		$('.pageLink').html(name);
+		if (website != undefined) {
+			website = website.replace('http://', '');
+			website = website.replace(/[ ,].*/g, '');
+			website = 'http://' + website;
+			
+			$('.pageLink').attr('href', website);
+			$('.pageLink').attr('target', '_blank');
+		}
+		$('.pageLink').removeClass('pageLink');
+		
+		$('.amazonLink').attr('href', amazon_link + amazon_sname);
+		$('.amazonLink').removeClass('amazonLink');
+		
+		$('.ebayLink').attr('href', ebay_link + ebay_sname);
+		$('.ebayLink').removeClass('ebayLink');
 	}
 }
 
-
-function toggleVisibility(elemID){
-	query = '#' + elemID;
+/**
+ ** Toggles visibility of non-dynamic element
+ ** @param {int} target ID of element
+ **/
+function toggleVisibility(target){
+	query = '#' + target;
+	var updateCalendar = false;
+	var btnQuery = '#calendarToggle';
+	if(query == '#myCalendar'){updateCalendar = true;}
+	
+	
 	if($(query).hasClass('hidden')){
 		$(query).removeClass('hidden');
+		if(updateCalendar){
+			$(btnQuery).text('Hide Calendar');
+		}
 	}
 	else {
-		$(query).addClass('hidden');
+		$(query).animateCss('fadeOut', function(){
+			$(query).addClass('hidden');
+		},.3);
+		if(updateCalendar){
+			$(btnQuery).text('Show Calendar');
+		}
 	}
 }
 
-/** Used with zabuto calendar
+/** 
+ ** Used with zabuto calendar
  ** Checks if an event exists on the date that
  ** a user clicks and shows an alert with the
  **	date and description of the event.
@@ -308,13 +380,14 @@ function eventAlert(eventId){
 	}
 }
 
-/*
-  Loads zabuto_calendar with events stored in a local .js file 
-  (in this case holiday.js is imported before glink.js in index.html)
-*/
+/**
+ ** Loads zabuto_calendar with events stored in a local .js file 
+ ** (in this case holiday.js is imported before glink.js in index.html)
+ **/
 function loadCalendar(){
-	$('#outputBlock').append('<br><a href = "#" onclick = "toggleVisibility(\'myCalendar\')">Click to View Calendar</a>');
+	$('#outputBlock').append('<br><a id = "calendarToggle" class = "btn btn-primary" href = "#" onclick = "toggleVisibility(\'myCalendar\')">Show Calendar</a><br><br>');
 	$('#outputBlock').append('<div class = "hidden animated fadeIn" id = "myCalendar" style = "padding: 5% 7% 5% 7%;"><div id = "usr_calendar"></div></div>');
+
 
 	$('#usr_calendar').ready(function(){$('#usr_calendar').zabuto_calendar(
 		{
@@ -330,11 +403,27 @@ function loadCalendar(){
 	)});
 }
 
-//Fades out the loading overlay and removes it when animation finishes.
+/**
+ ** Fades out the loading overlay and removes it when animation finishes
+ **/
 function removeOverlay(){
 	if($('.overlay').length){
 		$('.overlay').animateCss('fadeOut', function(){
 			$('.overlay').remove();
+			if(DEBUG_MODE) console.log('Overlay removed');
 		});
+		setTimeout(function(){$('#giftBox').animateCss('tada')},1500);
+	} else {
+		if(DEBUG_MODE) console.log('Overlay already removed');
 	}
+}
+
+/**
+ ** Display loading overlay
+ **/
+function showOverlay(){
+	$("body").append(''
+	 + '<div class="overlay">'
+	 + '<h1 class="text-center animated fadeInDown" id="overlayHeader">Gift<span style="color:#3b5998">Link</span>'
+	 + '<div class="loader text-center"></div></h1></div>');
 }
