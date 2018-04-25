@@ -8,16 +8,15 @@ window.fbAsyncInit = function() {
 	  
 	FB.AppEvents.logPageView();
 	
-	//Let's page finish loading before checking user's login status
-	window.onload = function(){
-		FB.getLoginStatus(function(response){
-		  if (response.status === 'connected') {
-			postLoginSetup();
-		  }else{
-			removeOverlay();
-		  }
-		});
-	}
+	FB.getLoginStatus(function(response){
+	  if (response.status === 'connected') {
+		if(DEBUG_MODE) console.log('User already logged in');
+		postLoginSetup();
+	  }else{
+		if(DEBUG_MODE) console.log('User not logged in');
+		removeOverlay();
+	  }
+	})
 };
 
 (function(d, s, id){
