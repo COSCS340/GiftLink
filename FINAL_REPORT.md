@@ -82,10 +82,12 @@ Below are a few screenshots displaying the improvements that we have made to **G
 **Figure 2.** Zabuto Calendar populated by Google's "Holidays in the U.S."
 
 ![alt text](screenshots/MainUI.png "Main User Interface")
+
 **Figure 3.** This is our main user interface that shows birthdays, interests, links to Amazon and Ebay, etc. 
 It also shows the sorting functionality for names and birthdays as well as **GiftLink's** verication filter.
 
-![alt text](screenshots/SearchBar.png "Gift search on Amazon")
+![alt text](screenshots/SearchBar.png "Search Bar")
+
 **Figure 4.** This is an example of our search bar dynamically filtering friends based on the search string.
 
 ![alt text](screenshots/PrivacyPolicy.png "Privacy Policy")
